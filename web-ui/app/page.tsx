@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, FileText, Sparkles, Download, CheckCircle, Loader2, BrainCircuit, Clock } from "lucide-react";
+import { Upload, FileText, Sparkles, Download, CheckCircle, Loader2, BrainCircuit, Clock, RotateCcw } from "lucide-react";
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -18,6 +18,15 @@ export default function Home() {
   // PRODUCTION API URL
   const API_BASE = "https://neuralleaf-ai-pdf-summarizer.onrender.com";
 
+  const handleClear = () => {
+    setFile(null);
+    setSummary("");
+    setChatHistory([]);
+    setStatus("");
+    setQuestion("");
+    setShowWakeUpWarning(false);
+  };
+
   const handleSummarize = async () => {
     if (!file) return;
     setLoading(true);
@@ -26,7 +35,6 @@ export default function Home() {
     setStatus("📂 Reading PDF and splitting into chunks...");
     setShowWakeUpWarning(false);
 
-    // Show warning if backend doesn't respond within 5 seconds (Free tier wake-up)
     const wakeUpTimer = setTimeout(() => setShowWakeUpWarning(true), 5000);
 
     const formData = new FormData();
@@ -112,6 +120,8 @@ export default function Home() {
         .action-btn { width: 100%; background: #10B981; color: #0B0D0F; border: none; border-radius: 16px; height: 64px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .chat-input { flex: 1; background: #1F2328; border: 1px solid #23272B; border-radius: 12px; padding: 12px 15px; color: white; outline: none; }
         .warning-msg { background: rgba(16, 185, 129, 0.1); border: 1px solid #10B981; border-radius: 12px; padding: 15px; margin-top: 20px; display: flex; align-items: center; gap: 10px; color: #10B981; font-size: 0.85rem; }
+        .clear-link { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border: none; background: none; transition: 0.2s; margin-top: 30px; }
+        .clear-link:hover { color: #10B981; }
       `}</style>
 
       <div className="main-wrapper">
@@ -169,7 +179,7 @@ export default function Home() {
                 <h3 style={{ color: '#10B981', marginBottom: '20px', fontWeight: 'bold' }}>Deep Context Chat</h3>
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '25px' }}>
                   <input type="text" value={question} onChange={(e) => setQuestion(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleAsk()} placeholder="Ask a specific question..." className="chat-input" />
-                  <button onClick={handleAsk} disabled={isAsking} style={{ background: '#10B981', padding: '0 25px', borderRadius: '12px', fontWeight: 'bold' }}>
+                  <button onClick={handleAsk} disabled={isAsking} style={{ background: '#10B981', padding: '0 25px', borderRadius: '12px', color: '#0B0D0F', fontWeight: 'bold' }}>
                     {isAsking ? <Loader2 className="animate-spin" /> : "Ask"}
                   </button>
                 </div>
@@ -179,6 +189,14 @@ export default function Home() {
                     <p style={{ color: '#D1D5DB', background: '#1F2328', padding: '12px', borderRadius: '8px', marginTop: '5px' }}>{chat.a}</p>
                   </div>
                 ))}
+              </div>
+
+              {/* RESTORED CLEAR BUTTON */}
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <button className="clear-link" onClick={handleClear}>
+                  <RotateCcw size={14} />
+                  Clear Session & New Upload
+                </button>
               </div>
             </motion.div>
           )}
