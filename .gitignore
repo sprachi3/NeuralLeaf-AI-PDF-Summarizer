@@ -1,0 +1,21 @@
+# Credentials
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+temp_uploads/
+output/
+
+# Node/Next.js
+node_modules/
+.next/
+out/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
