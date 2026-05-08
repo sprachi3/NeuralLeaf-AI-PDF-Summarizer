@@ -37,7 +37,7 @@ export default function Home() {
         });
       }, 12000);
 
-      const response = await fetch("http://127.0.0.1:8000/summarize", {
+      const response = await fetch("https://neuralleaf-ai-pdf-summarizer.onrender.com", {
         method: "POST",
         body: formData,
       });
