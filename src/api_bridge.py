@@ -84,5 +84,7 @@ async def export_pdf(data: dict):
 
 if __name__ == "__main__":
     import uvicorn
-    # 0.0.0.0 is necessary for Render to bind to the port
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    # Render provides a $PORT environment variable. If it's missing, use 8000.
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
