@@ -20,7 +20,10 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 # 2. Enable CORS for Next.js
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "https://neural-leaf-ai-pdf-summarizer.vercel.app/" # Add your actual Vercel URL here
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
